@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33627.172
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MKFilePicker", "MKFilePicker.csproj", "{039A3790-F8A2-47CD-81D2-5A137AA586EC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{039A3790-F8A2-47CD-81D2-5A137AA586EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{039A3790-F8A2-47CD-81D2-5A137AA586EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{039A3790-F8A2-47CD-81D2-5A137AA586EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{039A3790-F8A2-47CD-81D2-5A137AA586EC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9FD7D751-7C1E-4346-9E1B-2593DA4EA63B}
+	EndGlobalSection
+EndGlobal
