@@ -1,2 +1,1 @@
-﻿dotnet nuget push D:\WebTest\MKFilePicker\bin\Release\MKFilePicker.1.0.16.nupkg --api-key MING1998 --source https://localhost/nuget
-dotnet nuget delete MKFilePicker 1.0.16 --api-key MING1998 --source https://localhost/nuget
+
