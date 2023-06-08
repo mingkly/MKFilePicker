@@ -18,9 +18,11 @@ namespace MKFilePicker
             return CreateFolderPlatform(platformFolderPath, childPath);
         }
 
-        public Stream? OpenPickedFile(string platformPath)
+
+
+        public Stream? OpenPickedFile(string platformPath, string fileOpenMode)
         {
-            return OpenPickedFilePlatform(platformPath);
+            return OpenPickedFilePlatform(platformPath,fileOpenMode);
         }
 
         public Task<FilePickResult?> PickFileAsync(FilePickOptions? pickOptions)

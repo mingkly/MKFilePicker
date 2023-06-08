@@ -2,6 +2,7 @@
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
+using Android.Provider;
 using AndroidX.DocumentFile.Provider;
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using System;
@@ -49,7 +50,8 @@ namespace MKFilePicker
         }
         public readonly static int PickFolderId = 3;
 
-        public static string? MimeTypes { get; set; }
+        public static string? MimeType { get; set; }
+        public static string[]? ExtraMimeTypes { get; set; }
         static int ActionId { get; set; }
         public static bool HoldPermisson {get;set;}
         public static string? DisplayTitle { get; set; }
@@ -57,19 +59,19 @@ namespace MKFilePicker
         {
             base.OnCreate(savedInstanceState);
             Intent intent;
-            MimeTypes ??= "*/*";
+            MimeType ??= "*/*";
             switch (ActionId)
             {
                 case 1:
                     intent = new Intent(Intent.ActionOpenDocument);
                     DisplayTitle ??= "选择文件";
-                    intent.SetType(MimeTypes);
+                    SetMimeType(intent);                
                     intent.PutExtra(Intent.ExtraTitle, DisplayTitle);
                     StartActivityForResult(intent, PickFileId);
                     break;
                 case 2:
                     intent = new Intent(Intent.ActionOpenDocument);
-                    intent.SetType(MimeTypes);
+                    SetMimeType(intent);
                     DisplayTitle ??= "选择多个文件";
                     intent.PutExtra(Intent.ExtraTitle, DisplayTitle);
                     intent.PutExtra(Intent.ExtraAllowMultiple, true);
@@ -84,7 +86,26 @@ namespace MKFilePicker
             }         
             this.SetContentView(new Android.Widget.LinearLayout(this));
         }
-
+        static void SetMimeType(Intent intent)
+        {
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.Kitkat)
+            {
+                intent.SetType(MimeType);
+                if (ExtraMimeTypes != null&&ExtraMimeTypes.Length>1)
+                {
+                    intent.SetType("*/*");
+                    intent.PutExtra(Intent.ExtraMimeTypes,ExtraMimeTypes);
+                }
+            }
+            else
+            {
+                intent.SetType(MimeType);
+                if (ExtraMimeTypes != null && ExtraMimeTypes.Length > 1)
+                {
+                    intent.SetType(string.Join("|",ExtraMimeTypes));
+                }
+            }
+        }
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent? data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
@@ -153,10 +174,9 @@ namespace MKFilePicker
                         {
                             ContentResolver?.TakePersistableUriPermission(uri, takeFlags);
                         }
-                        var folderName=uri.PathSegments?.Last();
-                        var path = uri.Path;
+                        var folderName=uri.Path?.Split(":").Last();
                         PickFolderTaskCompletionSource?.TrySetResult(
-                            new FilePickResult(folderName,path,uri.ToString()));
+                            new FilePickResult(folderName,GetAbsoluteFolderPath(uri),uri.ToString()));
                     }
                 }
                 else
@@ -169,7 +189,27 @@ namespace MKFilePicker
         FilePickResult ReadFile(Android.Net.Uri uri)
         {
             var documentFile = DocumentFile.FromSingleUri(this, uri);           
-            return new FilePickResult(documentFile?.Name, Android.Net.Uri.Decode(uri.ToString())?.Split(':').Last(), uri.ToString());
+            return new FilePickResult(documentFile?.Name, GetAbsoluteFolderPath(uri), uri.ToString());
+        }
+        public static string? GetAbsolutePath(Android.Net.Uri uri)
+        {
+            using var cusor = Android.App.Application.Context.ContentResolver?.Query(uri,
+                new string[] { "_data" }, null, null, null);
+            if(cusor != null&&cusor.MoveToNext())
+            {
+                var dataCol=cusor.GetColumnIndex("_data");
+                return cusor.GetString(dataCol);
+            }
+            return uri.Path;
+        }
+        public static string? GetAbsoluteFolderPath(Android.Net.Uri uri)
+        {
+            var path=uri?.Path?.Split(':').Last();
+            if (path != null)
+            {
+                return System.IO.Path.Combine(Android.OS.Environment.ExternalStorageDirectory?.AbsolutePath??string.Empty, path);
+            }
+            return uri?.Path;
         }
     }
 }

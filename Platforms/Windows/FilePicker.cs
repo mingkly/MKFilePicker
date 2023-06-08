@@ -13,9 +13,20 @@ namespace MKFilePicker
 #nullable enable
     public partial class FilePicker
     {
-        internal Stream? OpenPickedFilePlatform(string platformPath)
+        internal Stream? OpenPickedFilePlatform(string platformPath, string fileOpenMode)
         {
-            return File.Open(platformPath, FileMode.Open);
+            if (fileOpenMode == "r")
+            {
+                return System.IO.File.OpenRead(platformPath);
+            }
+            else if (fileOpenMode == "w")
+            {
+                return System.IO.File.OpenWrite(platformPath);
+            }
+            else
+            {
+                return System.IO.File.Open(platformPath, FileMode.OpenOrCreate);
+            }
         }
 
         internal async Task<FilePickResult?> PickFilePlatformAsync(FilePickOptions? pickOptions)
@@ -78,7 +89,7 @@ namespace MKFilePicker
                 {
                     _= Directory.CreateDirectory(path);
                 }
-                return new FilePickResult(Path.GetDirectoryName(path) ?? childPath, path, path);
+                return new FilePickResult(Path.GetFileName(path.TrimEnd('/')) ?? childPath, path, path);
             }
             catch { }
             return null;

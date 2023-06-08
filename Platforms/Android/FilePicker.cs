@@ -18,18 +18,45 @@ namespace MKFilePicker
     public partial class FilePicker
     {
         Context Context => Android.App.Application.Context;
-        internal Stream? OpenPickedFilePlatform(string platformPath)
+        internal Stream? OpenPickedFilePlatform(string platformPath, string fileOpenMode)
         {
             if (platformPath.StartsWith("content"))
             {
-                var descriptor = Context.ContentResolver?.OpenFileDescriptor(Android.Net.Uri.Parse(platformPath)!, "rw");
-                return new JavaStreamWrapper(descriptor!);
+                if (fileOpenMode == "r")
+                {
+                    return Context.ContentResolver?.OpenInputStream(Android.Net.Uri.Parse(platformPath)!);
+                }
+                else if(fileOpenMode == "w")
+                {
+                    return Context.ContentResolver?.OpenOutputStream(Android.Net.Uri.Parse(platformPath)!,"w");
+                }
+                else if(fileOpenMode == "rw")
+                {
+                    var descriptor = Context.ContentResolver?.OpenFileDescriptor(Android.Net.Uri.Parse(platformPath)!, "rw");
+                    return new JavaStreamWrapper(descriptor!);
+                }
+                else
+                {
+                    var descriptor = Context.ContentResolver?.OpenFileDescriptor(Android.Net.Uri.Parse(platformPath)!, "rw");
+                    return new JavaStreamWrapper(descriptor!);
+                }
             }
             else
             {
                 try
                 {
-                    return System.IO.File.Open(platformPath, FileMode.OpenOrCreate);
+                    if(fileOpenMode == "r")
+                    {
+                        return System.IO.File.OpenRead(platformPath);
+                    }
+                    else if(fileOpenMode=="w")
+                    {
+                        return System.IO.File.OpenWrite(platformPath);
+                    }
+                    else
+                    {
+                        return System.IO.File.Open(platformPath, FileMode.OpenOrCreate);
+                    }
                 }
                 catch { }
                 try
@@ -58,11 +85,22 @@ namespace MKFilePicker
             PickFileActivity.DisplayTitle = pickOptions?.PickerTitle;
             if (pickOptions != null)
             {
-                PickFileActivity.MimeTypes = string.Join(";", pickOptions?.FileTypes?.Value ?? new string[] { "*/*" });
+                var types = pickOptions?.FileTypes?.Value;
+                if(types != null&&types.Any())
+                {
+                    PickFileActivity.MimeType = types.First();
+                    PickFileActivity.ExtraMimeTypes=types.ToArray();
+                }
+                else
+                {
+                    PickFileActivity.MimeType = "*/*";
+                    PickFileActivity.ExtraMimeTypes = null;
+                }            
             }
             else
             {
-                PickFileActivity.MimeTypes = "*/*";
+                PickFileActivity.MimeType = "*/*";
+                PickFileActivity.ExtraMimeTypes = null;
             }
             var intent = new Intent(Context, typeof(PickFileActivity));
             intent.SetFlags(ActivityFlags.NewTask);
@@ -77,13 +115,16 @@ namespace MKFilePicker
             PickFileActivity.DisplayTitle = pickOptions?.PickerTitle;
             if (pickOptions != null)
             {
-                PickFileActivity.MimeTypes = string.Join(";", pickOptions?.FileTypes?.Value ?? new string[] { "*/*" });
+                PickFileActivity.MimeType = string.Join(";", pickOptions?.FileTypes?.Value ?? new string[] { "*/*" });
             }
             else
             {
-                PickFileActivity.MimeTypes = "*/*";
+                PickFileActivity.MimeType = "*/*";
             }
-            Context.StartActivity(typeof(PickFileActivity));
+            var intent = new Intent(Context, typeof(PickFileActivity));
+            intent.SetFlags(ActivityFlags.NewTask);
+            Context.StartActivity(intent);
+
             return PickFileActivity.PickFilesTaskCompletionSource.Task;
         }
 
@@ -100,7 +141,7 @@ namespace MKFilePicker
 
         internal FilePickResult? CreateFilePlatform(string platformFolderPath, string childPath)
         {
-            var paths = childPath.Split(System.IO.Path.PathSeparator);
+            var paths = childPath.Split(new char[] { '/', Path.PathSeparator }, StringSplitOptions.RemoveEmptyEntries);
             var folderUri = Android.Net.Uri.Parse(platformFolderPath);
             if (folderUri != null && paths.Length > 0)
             {
@@ -124,7 +165,7 @@ namespace MKFilePicker
 
         internal FilePickResult? CreateFolderPlatform(string platformFolderPath, string childPath)
         {
-            var paths = childPath.Split(System.IO.Path.PathSeparator);
+            var paths = childPath.Split(new char[] { '/',Path.PathSeparator},StringSplitOptions.RemoveEmptyEntries);
             var folderUri = Android.Net.Uri.Parse(platformFolderPath);
             if (folderUri != null && paths.Length > 0)
             {
@@ -161,15 +202,13 @@ namespace MKFilePicker
             {
                 //Context?.ContentResolver?.TakePersistableUriPermission(file.Uri, ActivityFlags.GrantReadUriPermission | ActivityFlags.GrantWriteUriPermission );
                 return new FilePickResult(file.Name,
-                    file.Uri.Path, file.Uri.ToString());
+                    PickFileActivity.GetAbsoluteFolderPath(file.Uri), file.Uri.ToString());
             }
-
             return null;
         }
 
         FilePickResult? CreateFolderInDocument(string folderName, DocumentFile? file)
         {
-
             var target = file?.FindFile(folderName);
             if (target == null || target.IsFile)
             {
@@ -181,9 +220,8 @@ namespace MKFilePicker
             }
             if (file != null)
             {
-                //Context?.ContentResolver?.TakePersistableUriPermission(file.Uri, ActivityFlags.GrantReadUriPermission | ActivityFlags.GrantWriteUriPermission);
                 return new FilePickResult(file.Name,
-                    file.Uri.Path, file.Uri.ToString());
+                    PickFileActivity.GetAbsoluteFolderPath(file.Uri), file.Uri.ToString());
             }
             return null;
         }
@@ -200,10 +238,6 @@ namespace MKFilePicker
                 else
                 {
                     file = target;
-                }
-                if (file != null)
-                {
-                    //Context?.ContentResolver?.TakePersistableUriPermission(file.Uri, ActivityFlags.GrantReadUriPermission | ActivityFlags.GrantWriteUriPermission);
                 }
             }
             return file;

@@ -31,20 +31,22 @@ namespace MKFilePicker
         /// open picked file
         /// </summary>
         /// <param name="platformPath">the path from picked result</param>
+        /// <param name="fileOpenMode">"r","w","rw"</param>
         /// <returns></returns>
-        Stream? OpenPickedFile(string platformPath);
+        Stream? OpenPickedFile(string platformPath,string fileOpenMode);
+
         /// <summary>
         /// create file
         /// </summary>
         /// <param name="platformFolderPath">the path from picked result or created from CreateFolder</param>
-        /// <param name="childPath">"folder/file.txt or file.txt. "/"is Path.PathSeparator,In Android is ":" "</param>
+        /// <param name="childPath">"etc,folder/file.txt or file.txt"</param>
         /// <returns></returns>
         FilePickResult? CreateFile(string platformFolderPath, string childPath);
         /// <summary>
         /// create folder
         /// </summary>
         /// <param name="platformFolderPath">the path from picked result or created from CreateFolder</param>
-        /// <param name="childPath">"folder/innerFodler or folder. "/"is Path.PathSeparator,In Android is ":" "</param>
+        /// <param name="childPath">"etc,folder/file.txt or file.txt"</param>
         /// <returns></returns>
         FilePickResult? CreateFolder(string platformFolderPath, string childPath);
     }

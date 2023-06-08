@@ -1,0 +1,12 @@
+D:\WebTest\MKFilePicker\bin\Release\net7.0-windows10.0.19041.0\MKFilePicker.deps.json
+D:\WebTest\MKFilePicker\bin\Release\net7.0-windows10.0.19041.0\MKFilePicker.dll
+D:\WebTest\MKFilePicker\bin\Release\net7.0-windows10.0.19041.0\MKFilePicker.pdb
+D:\WebTest\MKFilePicker\obj\Release\net7.0-windows10.0.19041.0\MKFilePicker.csproj.AssemblyReference.cache
+D:\WebTest\MKFilePicker\obj\Release\net7.0-windows10.0.19041.0\MKFilePicker.GeneratedMSBuildEditorConfig.editorconfig
+D:\WebTest\MKFilePicker\obj\Release\net7.0-windows10.0.19041.0\MKFilePicker.AssemblyInfoInputs.cache
+D:\WebTest\MKFilePicker\obj\Release\net7.0-windows10.0.19041.0\MKFilePicker.AssemblyInfo.cs
+D:\WebTest\MKFilePicker\obj\Release\net7.0-windows10.0.19041.0\MKFilePicker.csproj.CoreCompileInputs.cache
+D:\WebTest\MKFilePicker\obj\Release\net7.0-windows10.0.19041.0\MKFilePicker.dll
+D:\WebTest\MKFilePicker\obj\Release\net7.0-windows10.0.19041.0\refint\MKFilePicker.dll
+D:\WebTest\MKFilePicker\obj\Release\net7.0-windows10.0.19041.0\MKFilePicker.pdb
+D:\WebTest\MKFilePicker\obj\Release\net7.0-windows10.0.19041.0\ref\MKFilePicker.dll

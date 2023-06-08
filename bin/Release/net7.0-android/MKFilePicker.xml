@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MKFilePicker</name>
+    </assembly>
+    <members>
+        <member name="P:MKFilePicker.FilePickOptions.HoldPermission">
+            <summary>
+            选择是否保留权限,应用重启后也可访问
+            take persistable permission after application rstart or not
+            </summary>
+        </member>
+        <member name="P:MKFilePicker.FilePickResult.PlatformPath">
+            <summary>
+            platform path for read or write
+            平台路径，供读写随用
+            </summary>
+        </member>
+        <member name="M:MKFilePicker.IFilePicker.PickFilesAsync(MKFilePicker.FilePickOptions)">
+            <summary>
+            pick mutilple files
+            </summary>
+            <param name="pickOptions">can be null</param>
+            <returns></returns>
+        </member>
+        <member name="M:MKFilePicker.IFilePicker.PickFileAsync(MKFilePicker.FilePickOptions)">
+            <summary>
+            pick single file
+            </summary>
+            <param name="pickOptions">can be null</param>
+            <returns></returns>
+        </member>
+        <member name="M:MKFilePicker.IFilePicker.PickFolderAsync(MKFilePicker.FilePickOptions)">
+            <summary>
+            pick a folder to create file in it
+            </summary>
+            <param name="pickOptions">set display title</param>
+            <returns></returns>
+        </member>
+        <member name="M:MKFilePicker.IFilePicker.OpenPickedFile(System.String,System.String)">
+            <summary>
+            open picked file
+            </summary>
+            <param name="platformPath">the path from picked result</param>
+            <param name="fileOpenMode">"r","w","rw"</param>
+            <returns></returns>
+        </member>
+        <member name="M:MKFilePicker.IFilePicker.CreateFile(System.String,System.String)">
+            <summary>
+            create file
+            </summary>
+            <param name="platformFolderPath">the path from picked result or created from CreateFolder</param>
+            <param name="childPath">"etc,folder/file.txt or file.txt"</param>
+            <returns></returns>
+        </member>
+        <member name="M:MKFilePicker.IFilePicker.CreateFolder(System.String,System.String)">
+            <summary>
+            create folder
+            </summary>
+            <param name="platformFolderPath">the path from picked result or created from CreateFolder</param>
+            <param name="childPath">"etc,folder/file.txt or file.txt"</param>
+            <returns></returns>
+        </member>
+        <member name="M:MKFilePicker.MKFilePicker.PickFilesAsync(MKFilePicker.FilePickOptions)">
+            <summary>
+            pick mutilple files
+            </summary>
+            <param name="pickOptions">can be null</param>
+            <returns></returns>
+        </member>
+        <member name="M:MKFilePicker.MKFilePicker.PickFileAsync(MKFilePicker.FilePickOptions)">
+            <summary>
+            pick single file
+            </summary>
+            <param name="pickOptions">can be null</param>
+            <returns></returns>
+        </member>
+        <member name="M:MKFilePicker.MKFilePicker.PickFolderAsync(MKFilePicker.FilePickOptions)">
+            <summary>
+            pick a folder to create file in it
+            </summary>
+            <param name="pickOptions">set display title</param>
+            <returns></returns>
+        </member>
+        <member name="M:MKFilePicker.MKFilePicker.OpenPickedFile(System.String,System.String)">
+            <summary>
+            open picked file
+            </summary>
+            <param name="platformPath">the path from picked result</param>
+            <returns></returns>
+        </member>
+        <member name="M:MKFilePicker.MKFilePicker.CreateFile(System.String,System.String)">
+            <summary>
+            create file
+            </summary>
+            <param name="platformFolderPath">the path from picked result or created from CreateFolder</param>
+            <param name="childPath">"folder/file.txt or file.txt. "/"is Path.PathSeparator,In Android is ":" "</param>
+            <returns></returns>
+        </member>
+        <member name="M:MKFilePicker.MKFilePicker.CreateFolder(System.String,System.String)">
+            <summary>
+            create folder
+            </summary>
+            <param name="platformFolderPath">the path from picked result or created from CreateFolder</param>
+            <param name="childPath">"folder/innerFodler or folder. "/"is Path.PathSeparator,In Android is ":" "</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

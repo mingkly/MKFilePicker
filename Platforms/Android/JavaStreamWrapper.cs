@@ -51,6 +51,7 @@ namespace MKFilePicker
         {
             this.fileDescriptor = fileDescriptor;
             outputStream = new FileOutputStream(fileDescriptor.FileDescriptor);
+            
             channel = outputStream.Channel!;
         }
 
@@ -69,10 +70,9 @@ namespace MKFilePicker
             {
                 return randomAccessFile.Read(buffer, offset, count);
             }
-            var javaBuffer = ByteBuffer.Wrap(buffer, offset, count);
-            var readed = channel.Read(javaBuffer);
-            javaBuffer.Get(buffer, offset, readed);
-            return readed;
+            var mapBuffer = channel.Map(FileChannel.MapMode.ReadOnly, Position, count);
+            mapBuffer?.Get(buffer, offset, count);
+            return count;
         }
 
         public override long Seek(long offset, SeekOrigin origin)
@@ -99,9 +99,18 @@ namespace MKFilePicker
 
         public override void Write(byte[] buffer, int offset, int count)
         {
+            if(randomAccessFile != null)
+            {
+                randomAccessFile.Write(buffer, offset, count);
+                return;
+            }
+            if(outputStream != null)
+            {
+                outputStream.Write(buffer, offset, count);
+                return;
+            }
             var javaBuffer = ByteBuffer.Wrap(buffer, offset, count);
             channel.Write(javaBuffer);
-
         }
         protected override void Dispose(bool disposing)
         {

@@ -1,0 +1,5 @@
+D:\WebTest\MKFilePicker\obj\Debug\net7.0\MKFilePicker.csproj.AssemblyReference.cache
+D:\WebTest\MKFilePicker\obj\Debug\net7.0\MKFilePicker.GeneratedMSBuildEditorConfig.editorconfig
+D:\WebTest\MKFilePicker\obj\Debug\net7.0\MKFilePicker.AssemblyInfoInputs.cache
+D:\WebTest\MKFilePicker\obj\Debug\net7.0\MKFilePicker.AssemblyInfo.cs
+D:\WebTest\MKFilePicker\obj\Debug\net7.0\MKFilePicker.csproj.CoreCompileInputs.cache

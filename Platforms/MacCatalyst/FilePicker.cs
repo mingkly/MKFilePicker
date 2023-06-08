@@ -8,7 +8,7 @@ namespace MKFilePicker
 {
     public partial class FilePicker
     {
-        internal Stream? OpenPickedFilePlatform(string platformPath)
+        internal Stream? OpenPickedFilePlatform(string platformPath, string fileOpenMode)
         {
             throw new NotImplementedException();
         }

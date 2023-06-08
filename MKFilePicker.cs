@@ -8,7 +8,7 @@ namespace MKFilePicker
 {
     public static class MKFilePicker
     {
-        static FilePicker filePicker;
+        static FilePicker? filePicker;
         public static IFilePicker Default
         {
             get
@@ -43,7 +43,7 @@ namespace MKFilePicker
         /// </summary>
         /// <param name="platformPath">the path from picked result</param>
         /// <returns></returns>
-        public static Stream? OpenPickedFile(string platformPath)=>Default.OpenPickedFile(platformPath);
+        public static Stream? OpenPickedFile(string platformPath, string fileOpenMode)=>Default.OpenPickedFile(platformPath,fileOpenMode);
         /// <summary>
         /// create file
         /// </summary>
