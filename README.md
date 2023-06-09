@@ -13,6 +13,10 @@ Only support windows and Android.</p>
 or target android api29 higher and granted android.permission.MANAGE_EXTERNAL_STORAGE,
 or target windows,you can read file like this:</p>
 <p>如果目标安卓平台在api29以下并且获得了读写外部存储权限，或者api29以上并获得管理所有文件权限，或者windows平台，可以直接使用file api访问：</p>
+<p>ps:i found not all of picked file can get their absloute path,it may return wrong absloute path like :video:29999(which like media uri) or something else,user can use other contentProvider so this value could be very strange.sp you can try catch its exception
+and use platform path instead</p>
+<p>后续发现这个绝对路径返回不一定正确，可能会返回video:1111这种media Uri形式，甚至用户可以选择其他contentproiver返回更为奇怪的路径
+，可以放在try catch快里捕获异常改为用platformPath</p>
 <code>
 	using var fs=File.OpenRead(res.FullPath);
 </code>
