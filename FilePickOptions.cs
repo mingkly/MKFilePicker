@@ -28,7 +28,7 @@ namespace MKFilePicker
         new FilePickerFileType(new Dictionary<DevicePlatform,IEnumerable<string>>
         {
             {DevicePlatform.Android,new string[]{"*/*"} },
-            {DevicePlatform.WinUI,new string[]{ "*" } }
+            {DevicePlatform.WinUI,new string[]{ "" } }
         }),
         new FilePickerFileType(new Dictionary<DevicePlatform,IEnumerable<string>>
         {
