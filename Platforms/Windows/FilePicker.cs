@@ -52,6 +52,10 @@ namespace MKFilePicker
             {
                 WinRT.Interop.InitializeWithWindow.Initialize(folderPicker, hwnd.Value);
                 var folder = await folderPicker.PickSingleFolderAsync();
+                if (folder?.Path==null)
+                {
+                    return null;
+                }
                 return new FilePickResult(folder.Name, folder.Path, folder.Path);
             }
             return null;
